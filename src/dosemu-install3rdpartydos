@@ -20,7 +20,7 @@ THIRD_PARTY_DOS_CHOICES = [
 
 CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
 
-SCRIPT_ROOT = os.path.dirname(os.path.realpath(__file__))
+SCRIPT_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'libexec', 'dosemu')
 
 provided_doschoices = []
 completed_process = subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-downloaddos'), '-l'], stdout=subprocess.PIPE)

@@ -29,7 +29,7 @@ if not Path(cmddir, 'fdconfig.sys').is_file():
 for filename in Path(args.source).glob('*.zip'):
     for entry in zipfile.ZipFile(filename).namelist():
         if entry == 'BIN/': # found a freedos archive
-            sys.exit(subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-installfreedos'), args.source, args.destination, args.variant]).returncode)
+            sys.exit(subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-setupfreedos'), '-s', args.source, '-d', args.destination, '-v', args.variant]).returncode)
 
 if Path(os.path.join(args.source, 'msdos.sys')).exists():
     sys.exit(subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-installmsdos'), args.source, args.destination]).returncode)
