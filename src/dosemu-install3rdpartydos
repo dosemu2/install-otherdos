@@ -23,16 +23,9 @@ CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
 SCRIPT_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'libexec', 'dosemu')
 
 provided_doschoices = []
-completed_process = subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-downloaddos'), '-l'], stdout=subprocess.PIPE)
-if (completed_process.returncode != 0):
-    sys.exit(completed_process.returncode)
 print('DOSEMU2 DOS installer script\n\nPick the DOS to install:')
-for dosline in completed_process.stdout.decode(sys.stdout.encoding).splitlines():
-    dos = dosline.split(' ', 1)
-    provided_doschoices.append({'short_name': dos[0], 'full_name': dos[1]})
-
 count = 0;
-for i, dos_choice in enumerate(provided_doschoices + THIRD_PARTY_DOS_CHOICES):
+for i, dos_choice in enumerate(THIRD_PARTY_DOS_CHOICES):
     count = i + 1
     print(str(count) + '. ' +  dos_choice.get('full_name'))
 print('0. Quit')
