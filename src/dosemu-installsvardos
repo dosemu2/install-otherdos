@@ -1,0 +1,26 @@
+#!/usr/bin/python3
+
+import argparse
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+parser = argparse.ArgumentParser(description="""SvarDOS installation script.""")
+parser.add_argument("source", type=str, help="""source directory containing SvarDOS installation files;""")
+parser.add_argument("destination", type=str, help="""destination root directory""")
+
+args = parser.parse_args()
+
+# system installation
+cmddir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'share', 'dosemu', 'commands', 'c')
+
+if list(Path(args.source).glob('svardos-dosemu.zip')):
+    print('Extracting ' + args.source + '/svardos-dosemu.zip' + ' to ' + args.destination)
+    os.makedirs(args.destination, exist_ok=True)
+    subprocess.run(['unzip', args.source + '/svardos-dosemu.zip', '-d', args.destination], stdout=subprocess.DEVNULL)
+    sys.exit(0)
+
+print('No SvarDOS installation image found.')
+sys.exit(1)
