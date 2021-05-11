@@ -13,9 +13,12 @@ MSDOS622_SHA256SUMS = ['fd43e657e13b1a9ecc7b3a14e2ef97991d4a84bd5f69bd895d23cc61
 OPENDOS702RPM_URL = OPENLINUX_MIRROR + '/updates/OpenLinux/1.3/current/SRPMS/opendos-hdimage-7.02-4.src.rpm'
 OPENDOS702RPM_SHA256SUM = 'bb5cf740d7dcae40665a235a23d8a59136e09bd23ed89bc29e270d5c61c685cb'
 
+SVARDOS_URL = 'http://svardos.osdn.io/download/svardos-dosemu.zip'
+
 THIRD_PARTY_DOS_CHOICES = [
     {'short_name': 'msdos622',   'full_name': 'Microsoft MS-DOS v6.22 (1994)', 'url': MSDOS622_URL, 'sha256sums': MSDOS622_SHA256SUMS },
-    {'short_name': 'opendos702', 'full_name': 'Caldera OpenDOS 7.02 (1997)'  , 'url': OPENDOS702RPM_URL, 'sha256sums': [OPENDOS702RPM_SHA256SUM]}
+    {'short_name': 'opendos702', 'full_name': 'Caldera OpenDOS 7.02 (1997)'  , 'url': OPENDOS702RPM_URL, 'sha256sums': [OPENDOS702RPM_SHA256SUM]},
+    {'short_name': 'svardos-userspace', 'full_name': 'SvarDOS (rolling release)'  , 'url': SVARDOS_URL}
     ]
 
 CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
