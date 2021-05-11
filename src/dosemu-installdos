@@ -10,7 +10,7 @@ from pathlib import Path
 SCRIPT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 parser = argparse.ArgumentParser(description="""Detect which DOS is in the provided source directory and execute the fitting installation routine.
-Supports FreeDOS ZIP files, MS-DOS installation files and OpenDOS RPMs.""")
+Supports FreeDOS ZIP files, MS-DOS installation files, OpenDOS RPMs and SvarDOS zip image.""")
 parser.add_argument("-s", "--source", type=str, help="source directory containing DOS installation files")
 parser.add_argument("-d", "--destination", type=str, help="destination root directory")
 parser.add_argument("-v", "--variant", type=str, choices=['full', 'userspace'], nargs='?', help="FreeDOS only: install a full environment or only the userspace parts (intended to complement FDPP)")
@@ -26,6 +26,9 @@ if not Path(cmddir, 'fdconfig.sys').is_file():
     cmddir = os.path.dirname(os.path.abspath(__file__))
 
 # Detect which DOS is provided and run the appropriate installation routine
+if list(Path(args.source).glob('svardos-dosemu.zip')): # SvarDOS zip image
+    sys.exit(subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-installsvardos'), args.source, args.destination]).returncode)
+
 for filename in Path(args.source).glob('*.zip'):
     for entry in zipfile.ZipFile(filename).namelist():
         if entry == 'BIN/': # found a freedos archive
