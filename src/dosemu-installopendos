@@ -32,8 +32,8 @@ parser.add_argument("destination", type=str, help="destination root directory")
 args = parser.parse_args()
 
 # system installation
-cmddir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'share', 'dosemu', 'commands', 'c')
-
+info = subprocess.run(['dosemu', '-info'], stdout=subprocess.PIPE).stdout.decode(sys.stdout.encoding).splitlines()[0]
+cmddir = os.path.join(info[info.find(': ') + 2:], 'share', 'dosemu', 'commands', 'c')
 if list(Path(args.source).glob('opendos-hdimage*.rpm')):
     install_opendos_from_rpm(args.source, args.destination)
     shutil.copy(os.path.join(cmddir, 'odconfig.sys'), args.destination)
