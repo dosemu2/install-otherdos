@@ -20,19 +20,12 @@ THIRD_PARTY_DOS_CHOICES = [
 
 CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
 
-SCRIPT_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'libexec', 'dosemu')
+SCRIPT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 provided_doschoices = []
-completed_process = subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-downloaddos'), '-l'], stdout=subprocess.PIPE)
-if (completed_process.returncode != 0):
-    sys.exit(completed_process.returncode)
 print('DOSEMU2 DOS installer script\n\nPick the DOS to install:')
-for dosline in completed_process.stdout.decode(sys.stdout.encoding).splitlines():
-    dos = dosline.split(' ', 1)
-    provided_doschoices.append({'short_name': dos[0], 'full_name': dos[1]})
-
 count = 0;
-for i, dos_choice in enumerate(provided_doschoices + THIRD_PARTY_DOS_CHOICES):
+for i, dos_choice in enumerate(THIRD_PARTY_DOS_CHOICES):
     count = i + 1
     print(str(count) + '. ' +  dos_choice.get('full_name'))
 print('0. Quit')
@@ -54,17 +47,11 @@ else:
 
 download_dir = os.path.join(CACHE_DIR, chosen_dos.get('short_name').replace('userspace', ''))
 
-download_command = [os.path.join(SCRIPT_ROOT, 'dosemu-downloaddos')]
-
-if (choice <= len(provided_doschoices)):
-    download_command.append('-o')
-    download_command.append(chosen_dos.get('short_name'))
-else:
-    download_command.append('-c')
-    download_command.append(chosen_dos.get('url'))
+download_command = [os.path.join(SCRIPT_ROOT, 'dosemu-dlimg')]
 
 download_command.append('-d')
 download_command.append(download_dir)
+download_command.append(chosen_dos.get('url'))
 
 if chosen_dos.get('sha256sums') is not None:
     download_command.append('-s')
