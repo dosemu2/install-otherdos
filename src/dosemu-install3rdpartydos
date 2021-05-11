@@ -18,7 +18,7 @@ SVARDOS_URL = 'http://svardos.osdn.io/download/svardos-dosemu.zip'
 THIRD_PARTY_DOS_CHOICES = [
     {'short_name': 'msdos622',   'full_name': 'Microsoft MS-DOS v6.22 (1994)', 'url': MSDOS622_URL, 'sha256sums': MSDOS622_SHA256SUMS },
     {'short_name': 'opendos702', 'full_name': 'Caldera OpenDOS 7.02 (1997)'  , 'url': OPENDOS702RPM_URL, 'sha256sums': [OPENDOS702RPM_SHA256SUM]},
-    {'short_name': 'svardos-userspace', 'full_name': 'SvarDOS (rolling release)'  , 'url': SVARDOS_URL}
+    {'short_name': 'svardos', 'full_name': 'SvarDOS (rolling release)'  , 'url': SVARDOS_URL}
     ]
 
 CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
