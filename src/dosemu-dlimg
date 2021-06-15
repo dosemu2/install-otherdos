@@ -13,8 +13,6 @@ import zipfile
 from pathlib import Path
 from tqdm import tqdm
 
-TMP_DIR = os.path.join('/tmp', os.path.basename(sys.argv[0]) + '-' + os.environ['USER'] + '-' + str(os.getpid()))
-
 def check_sum_pkg_info(destination_file):
     pkg_info_file = open(destination_file[:-3] + 'txt', 'r')
     unchecked = True
@@ -75,13 +73,6 @@ def assert_sha256sum(file, sha256sum):
         print('Please remove the file and rerun the script.')
         sys.exit(1)
 
-def process_disk_image_archive(archive, destination):
-    image_archive = zipfile.ZipFile(archive)
-    image_filename = image_archive.namelist()[0]
-    image_archive.extractall(TMP_DIR)
-    image_path = os.path.join(TMP_DIR, image_filename)
-    subprocess.run(['mcopy', '-sn', '-i', image_path, '::*', destination], env={"PATH": os.environ['PATH'], "MTOOLS_LOWER_CASE": '1'})
-
 def download_files(imgurls, destination):
     destination_files = []
     for imgurl in imgurls:
@@ -89,17 +80,10 @@ def download_files(imgurls, destination):
     return destination_files
 
 def download_and_process(imgurls, destination, sha256sums = []):
-    os.mkdir(TMP_DIR)
-    destination_files = download_files(imgurls, TMP_DIR)
+    destination_files = download_files(imgurls, destination)
     for i, imgurl in enumerate(imgurls):
         if len(sha256sums) > 0:
             assert_sha256sum(destination_files[i], sha256sums[i])
-    for destination_file in destination_files:
-        if re.search(r'.zip$', destination_file) != None and len(zipfile.ZipFile(destination_file).namelist()) == 1:
-            process_disk_image_archive(destination_file, destination)
-        else:
-            shutil.move(destination_file, destination)
-    shutil.rmtree(TMP_DIR)
 
 def verify_tool(executable, package):
     if subprocess.getstatusoutput(['which', executable]) == 0:
