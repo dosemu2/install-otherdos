@@ -1,0 +1,42 @@
+#
+# spec file for package install-otherdos
+#
+
+Name: {{{ git_dir_name }}}
+Version: {{{ git_dir_version }}}
+Release: 1%{?dist}
+Summary: various DOS installers
+BuildArch: noarch
+Group: System/Emulator
+
+License: GPL-3.0+
+URL: http://www.github.com/dosemu2/install-otherdos
+VCS: {{{ git_dir_vcs }}}
+Source0: {{{ git_dir_archive }}}
+
+BuildRequires: make
+Requires: python3
+Requires: python3-tqdm
+
+%define debug_package %{nil}
+
+%description
+various dos installers for dosemu2.
+
+%prep
+{{{ git_dir_setup_macro }}}
+
+%build
+
+%check
+
+%install
+make DESTDIR=%{buildroot} prefix=%{_prefix} libexecdir=%{_libexecdir} bindir=%{_bindir} install
+
+%files
+%defattr(-,root,root)
+%{_bindir}/dosemu-install3rdpartydos
+%{_libexecdir}/dosemu-installdos
+
+%changelog
+{{{ git_dir_changelog }}}
