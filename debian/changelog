@@ -1,0 +1,5 @@
+install-otherdos (0.1-1) focal; urgency=low
+
+  * first release
+
+ -- Stas Sergeev <stsp@users.sourceforge.net>  Fri, 17 Jun 2021 01:00:00 +0300

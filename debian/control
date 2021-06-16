@@ -1,0 +1,15 @@
+Source: install-otherdos
+Section: contrib/otherosfs
+Priority: optional
+Maintainer: Stas Sergeev <stsp@users.sourceforge.net>
+Standards-Version: 3.9.7
+Build-Depends:
+    make,
+    debhelper (>= 9~)
+Homepage: https://github.com/dosemu2/install-otherdos
+
+Package: install-otherdos
+Architecture: all
+Depends: python3, python3-tqdm
+Description: various DOS installer scripts
+ A set of scripts to install various DOSes.
