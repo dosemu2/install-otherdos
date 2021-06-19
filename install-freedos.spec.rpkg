@@ -5,7 +5,7 @@
 Name: {{{ git_dir_name }}}
 Version: {{{ git_dir_version }}}
 Release: 1%{?dist}
-Summary: various DOS installers
+Summary: various DOS installers for dosemu2
 BuildArch: noarch
 Group: System/Emulator
 
