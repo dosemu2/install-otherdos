@@ -2,7 +2,7 @@ Source: install-otherdos
 Section: contrib/otherosfs
 Priority: optional
 Maintainer: Stas Sergeev <stsp@users.sourceforge.net>
-Standards-Version: 3.9.7
+Standards-Version: 4.1.5
 Build-Depends:
     make,
     debhelper (>= 9~)
