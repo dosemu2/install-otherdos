@@ -3,9 +3,36 @@
 import argparse
 import os
 import shutil
-import subprocess
 import sys
+import time
+import zipfile
+import zlib
 from pathlib import Path
+
+def extract_zipfile_entry(archive, zipinfo, output_filename):
+    if Path(output_filename).exists():
+        with open(output_filename, 'rb') as existing_file:
+            existing_file_crc32 = zlib.crc32(existing_file.read())
+            existing_file.close()
+        if existing_file_crc32 == zipinfo.CRC:
+            print('File with equal content ' + output_filename + ' already exists, skipping...')
+            return
+        else:
+            print('Existing file with different content found ' + output_filename + """
+                  Likely another DOS version is installed already. Remove the
+                  existing file and rerun this script to proceed.""")
+            sys.exit(1)
+    with open(output_filename, 'wb') as output_file:
+        output_file.write(archive.read(zipinfo.filename))
+        output_file.close()
+    os.utime(output_filename, (time.time(), time.mktime(zipinfo.date_time + (0, 0, -1))))
+
+def extract_archive(filename, drive_root):
+    archive = zipfile.ZipFile(filename)
+    for entry in archive.infolist():
+        filename = entry.filename.lower()
+        output_filename = os.path.join(drive_root, filename)
+        extract_zipfile_entry(archive, entry, output_filename)
 
 parser = argparse.ArgumentParser(description="""SvarDOS installation script.""")
 parser.add_argument("source", type=str, help="""source directory containing SvarDOS installation files;""")
@@ -17,7 +44,7 @@ args = parser.parse_args()
 if list(Path(args.source).glob('svardos-dosemu.zip')):
     print('Extracting ' + args.source + '/svardos-dosemu.zip' + ' to ' + args.destination)
     os.makedirs(args.destination, exist_ok=True)
-    subprocess.run(['unzip', args.source + '/svardos-dosemu.zip', '-d', args.destination], stdout=subprocess.DEVNULL)
+    extract_archive(args.source + '/svardos-dosemu.zip', args.destination)
     sys.exit(0)
 
 print('No SvarDOS installation image found.')
