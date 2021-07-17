@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import libarchive
 import os
 import shutil
 import subprocess
@@ -9,16 +10,19 @@ from pathlib import Path
 
 MTOOLS_HDIMAGE_FILESYSTEM_OFFSET = '@@32384'
 
-def extract_7z(archive, filename, destination_dir):
-    print('Extracting ' + archive + '...')
-    subprocess.run(['7z', 'e', archive, filename, '-o' + destination_dir, '-y', '-ssc-'], stdout=subprocess.DEVNULL)
-
 def install_opendos_from_rpm(source, drive_root):
     TMP_DIR = os.path.join('/tmp', os.path.basename(sys.argv[0]) + '-' + os.environ['USER'] + '-' + str(os.getpid()))
     os.makedirs(TMP_DIR, exist_ok=True)
     os.makedirs(drive_root, exist_ok=True)
-    extract_7z(os.path.join(source, 'opendos-hdimage*.rpm'), "", TMP_DIR)
-    extract_7z(os.path.join(TMP_DIR, 'opendos-hdimage*.cpio'), 'hdimage.od', TMP_DIR)
+
+    archive_file = list(Path(source).glob('opendos-hdimage*.rpm'))[0]
+    with libarchive.file_reader(str(archive_file)) as archive:
+        for entry in archive:
+            if entry.pathname == 'hdimage.od':
+                    with open(os.path.join(TMP_DIR, 'hdimage.od'), 'wb') as output_file:
+                        for block in entry.get_blocks():
+                            output_file.write(block)
+                        output_file.close()
     subprocess.run(['mcopy', '-sn', '-i', os.path.join(TMP_DIR, 'hdimage.od') + MTOOLS_HDIMAGE_FILESYSTEM_OFFSET, '::*', drive_root], env={"PATH": os.environ['PATH'], "MTOOLS_LOWER_CASE": '1'})
     shutil.rmtree(TMP_DIR)
 

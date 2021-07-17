@@ -16,6 +16,7 @@ Source0: {{{ git_dir_archive }}}
 
 BuildRequires: make
 Requires: python3
+Requires: python3-libarchive-c
 Requires: python3-tqdm
 
 %define debug_package %{nil}
