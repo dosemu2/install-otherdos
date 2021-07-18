@@ -85,14 +85,6 @@ def download_and_process(imgurls, destination, sha256sums = []):
         if len(sha256sums) > 0:
             assert_sha256sum(destination_files[i], sha256sums[i])
 
-def verify_tool(executable, package):
-    if subprocess.getstatusoutput(['which', executable]) == 0:
-        print('Please install ' + package + ' and make sure that ' + executable + ' is on your PATH.')
-        sys.exit(1)
-
-def verify_system():
-    verify_tool('mcopy', 'mtools')
-
 def verify_noexistinginstall(destination):
     if os.listdir(destination) != []:
         print('There is a already an existing set of DOS installation files in ' + destination + '.')
@@ -113,8 +105,6 @@ def derive_url_list(imgurl):
     else:
         imgurls.append(imgurl)
     return imgurls;
-
-verify_system()
 
 parser = argparse.ArgumentParser(description="""Script to download a set of disk images.
 When a custom URL to a disk image is provided, based on known filename patterns, all related images are downloaded and extracted.

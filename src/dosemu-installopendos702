@@ -26,6 +26,15 @@ def install_opendos_from_rpm(source, drive_root):
     subprocess.run(['mcopy', '-sn', '-i', os.path.join(TMP_DIR, 'hdimage.od') + MTOOLS_HDIMAGE_FILESYSTEM_OFFSET, '::*', drive_root], env={"PATH": os.environ['PATH'], "MTOOLS_LOWER_CASE": '1'})
     shutil.rmtree(TMP_DIR)
 
+def verify_tool(executable, package):
+    if subprocess.getstatusoutput(['which', executable]) != 0:
+        print('Please install ' + package + ' and make sure that ' + executable + ' is on your PATH.')
+        sys.exit(1)
+
+def verify_system():
+    verify_tool('mcopy', 'mtools')
+
+verify_system()
 
 parser = argparse.ArgumentParser(description="""OpenDOS installation scipt.
 The result resembles an OpenDOS environment as was shipped along DOSEMU 1 on Caldera OpenLinux.""")
