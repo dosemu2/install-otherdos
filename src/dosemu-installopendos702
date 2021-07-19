@@ -27,7 +27,8 @@ def install_opendos_from_rpm(source, drive_root):
     shutil.rmtree(TMP_DIR)
 
 def verify_tool(executable, package):
-    if subprocess.getstatusoutput(['which', executable]) != 0:
+    (status, output) = subprocess.getstatusoutput('which ' + executable)
+    if status != 0:
         print('Please install ' + package + ' and make sure that ' + executable + ' is on your PATH.')
         sys.exit(1)
 
