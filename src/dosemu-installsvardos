@@ -45,6 +45,7 @@ if list(Path(args.source).glob('svardos-dosemu.zip')):
     print('Extracting ' + args.source + '/svardos-dosemu.zip' + ' to ' + args.destination)
     os.makedirs(args.destination, exist_ok=True)
     extract_archive(args.source + '/svardos-dosemu.zip', args.destination)
+    os.mkdir(args.destination + '/tmp')
     sys.exit(0)
 
 print('No SvarDOS installation image found.')
