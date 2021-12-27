@@ -9,7 +9,7 @@ Summary: various DOS installers for dosemu2
 BuildArch: noarch
 Group: System/Emulator
 
-License: GPL-3.0+
+License: GPLv3+
 URL: http://www.github.com/dosemu2/install-otherdos
 VCS: {{{ git_dir_vcs }}}
 Source0: {{{ git_dir_archive }}}
