@@ -18,7 +18,7 @@ def extract_zipfile_entry(archive, zipinfo, output_filename):
             print('File with equal content ' + output_filename + ' already exists, skipping...')
             return
         else:
-            print('Existing file with different content found ' + output_filename + """
+            print('Existing file with different content found: ' + output_filename + """
                   Likely another DOS version is installed already. Remove the
                   existing file and rerun this script to proceed.""")
             sys.exit(1)
@@ -41,11 +41,14 @@ parser.add_argument("destination", type=str, help="""destination root directory"
 args = parser.parse_args()
 
 # system installation
-if list(Path(args.source).glob('svardos-dosemu.zip')):
-    print('Extracting ' + args.source + '/svardos-dosemu.zip' + ' to ' + args.destination)
+arch_name = 'svardos-20220412-dosemu.zip'
+if list(Path(args.source).glob(arch_name)):
+    print('Extracting ' + args.source + '/' + arch_name + ' to ' + args.destination)
     os.makedirs(args.destination, exist_ok=True)
-    extract_archive(args.source + '/svardos-dosemu.zip', args.destination)
-    os.mkdir(args.destination + '/tmp')
+    extract_archive(args.source + '/' + arch_name, args.destination)
+    tmp_name = args.destination + '/tmp'
+    if not Path(tmp_name).exists():
+        os.mkdir(tmp_name)
     sys.exit(0)
 
 print('No SvarDOS installation image found.')

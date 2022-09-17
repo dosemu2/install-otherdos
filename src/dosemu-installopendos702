@@ -52,7 +52,9 @@ if list(Path(args.source).glob('opendos-hdimage*.rpm')):
     install_opendos_from_rpm(args.source, args.destination)
     shutil.copy(os.path.join(cmddir, 'odconfig.sys'), args.destination)
     shutil.copy(os.path.join(cmddir, 'odautoem.bat'), args.destination)
-    os.mkdir(args.destination + '/tmp')
+    tmp_name = args.destination + '/tmp'
+    if not Path(tmp_name).exists():
+        os.mkdir(tmp_name)
     sys.exit(0)
 
 print('No DOS installation files were found.')
