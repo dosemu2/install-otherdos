@@ -41,7 +41,7 @@ parser.add_argument("destination", type=str, help="""destination root directory"
 args = parser.parse_args()
 
 # system installation
-arch_name = 'svardos-20220412-dosemu.zip'
+arch_name = 'svardos-20220816-dosemu.zip'
 if list(Path(args.source).glob(arch_name)):
     print('Extracting ' + args.source + '/' + arch_name + ' to ' + args.destination)
     os.makedirs(args.destination, exist_ok=True)

@@ -9,11 +9,11 @@ OPENLINUX_MIRROR       = 'ftp://ftp.nvg.org/pub/mirrors/metalab.unc.edu/distribu
 OPENDOS702RPM_URL = OPENLINUX_MIRROR + '/updates/OpenLinux/1.3/current/SRPMS/opendos-hdimage-7.02-4.src.rpm'
 OPENDOS702RPM_SHA256SUM = 'bb5cf740d7dcae40665a235a23d8a59136e09bd23ed89bc29e270d5c61c685cb'
 
-SVARDOS_URL = 'http://svardos.org/download/20220412/svardos-20220412-dosemu.zip'
+SVARDOS_URL = 'http://svardos.org/download/20220816/svardos-20220816-dosemu.zip'
 
 THIRD_PARTY_DOS_CHOICES = [
-    {'short_name': 'opendos702', 'full_name': 'Caldera OpenDOS 7.02 (1997)'  , 'url': OPENDOS702RPM_URL, 'sha256sums': [OPENDOS702RPM_SHA256SUM]},
-    {'short_name': 'svardos', 'full_name': 'SvarDOS (rolling release)'  , 'url': SVARDOS_URL}
+    {'short_name': 'opendos702', 'script_name': 'opendos702', 'full_name': 'Caldera OpenDOS 7.02 (1997)'  , 'url': OPENDOS702RPM_URL, 'sha256sums': [OPENDOS702RPM_SHA256SUM]},
+    {'short_name': 'svardos816', 'script_name': 'svardos', 'full_name': 'SvarDOS (rolling release)'  , 'url': SVARDOS_URL}
     ]
 
 CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
@@ -36,4 +36,4 @@ for dos_choice in THIRD_PARTY_DOS_CHOICES:
     destination_dir = os.path.join(os.environ['HOME'], '.dosemu', 'install', dos_choice.get('short_name'), 'drive_c')
 
     if subprocess.run(download_command).returncode == 0:
-        subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-install' + dos_choice.get('short_name')), download_dir, destination_dir])
+        subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-install' + dos_choice.get('script_name')), download_dir, destination_dir])
