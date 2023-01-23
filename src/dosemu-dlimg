@@ -45,15 +45,13 @@ def download_file(source, destination_directory):
             else:
                 length = None
             if type(length) is str:
-                with tqdm(total=int(length), unit='B') as pbar:
+                with tqdm(total=int(length), unit='B', maxinterval=0.5) as pbar:
                     while True:
-                        chunk = response.read(1024)
+                        chunk = response.read(16384)
                         if not chunk:
                             break
                         f.write(chunk)
-                        f.flush()
                         pbar.update(len(chunk))
-                        pbar.refresh()
             else:
                 f.write(response.read())
     return destination_file
