@@ -35,5 +35,8 @@ for dos_choice in THIRD_PARTY_DOS_CHOICES:
 
     destination_dir = os.path.join(os.environ['HOME'], '.dosemu', 'install', dos_choice.get('short_name'), 'drive_c')
 
-    if subprocess.run(download_command).returncode == 0:
-        subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-install' + dos_choice.get('script_name')), download_dir, destination_dir])
+    rc = subprocess.run(download_command).returncode
+    if rc == 0:
+        rc = subprocess.run([os.path.join(SCRIPT_ROOT, 'dosemu-install' + dos_choice.get('script_name')), download_dir, destination_dir]).returncode
+    if rc != 0:
+        sys.exit(rc)
