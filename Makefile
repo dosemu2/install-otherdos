@@ -12,6 +12,10 @@ install:
 	mkdir -p $(DESTDIR)$(bindir)
 	ln -sf ../$(libexec)/$(pkgname)/dosemu-install3rdpartydos $(DESTDIR)$(bindir)/dosemu-install3rdpartydos
 
+uninstall:
+	$(RM) $(DESTDIR)$(bindir)/dosemu-install3rdpartydos
+	$(RM) -r $(DESTDIR)$(libexecdir)/$(pkgname)
+
 rpm: fdpp.spec.rpkg
 	rpkg local
 
