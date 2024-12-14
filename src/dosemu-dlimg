@@ -37,7 +37,7 @@ def download_file(source, destination_directory):
             check_sum(destination_file)
     else:
         print('Downloading ' + source + '...')
-        with urllib.request.urlopen(urllib.parse.quote_plus(source, "\./_-:")) as response, open(destination_file, 'wb') as f:
+        with urllib.request.urlopen(urllib.parse.quote_plus(source, r'\./_-:')) as response, open(destination_file, 'wb') as f:
             if hasattr(response, 'headers'):
                 length = response.headers['Content-length']
             elif hasattr(response, 'getheader'):
