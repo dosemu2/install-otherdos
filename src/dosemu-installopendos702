@@ -11,7 +11,10 @@ from pathlib import Path
 MTOOLS_HDIMAGE_FILESYSTEM_OFFSET = '@@32384'
 
 def install_opendos_from_rpm(source, drive_root):
-    TMP_DIR = os.path.join('/tmp', os.path.basename(sys.argv[0]) + '-' + os.environ['USER'] + '-' + str(os.getpid()))
+    tmp = os.getenv("TMPDIR")
+    if tmp is None:
+        tmp = '/tmp'
+    TMP_DIR = os.path.join(tmp, os.path.basename(sys.argv[0]) + '-' + str(os.getpid()))
     os.makedirs(TMP_DIR, exist_ok=True)
     os.makedirs(drive_root, exist_ok=True)
 
