@@ -1,4 +1,9 @@
+# on Termux PREFIX is used
+ifneq ($(PREFIX),)
+prefix := $(PREFIX)
+else
 prefix ?= /usr/local
+endif
 
 libexecdir ?= $(prefix)/libexec
 libexec = $(lastword $(subst /, ,$(libexecdir)))
