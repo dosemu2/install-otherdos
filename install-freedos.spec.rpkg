@@ -10,7 +10,7 @@ BuildArch: noarch
 Group: System/Emulator
 
 License: GPLv3+
-URL: http://www.github.com/dosemu2/install-otherdos
+URL: https://www.github.com/dosemu2/install-otherdos
 VCS: {{{ git_dir_vcs }}}
 Source0: {{{ git_dir_archive }}}
 
